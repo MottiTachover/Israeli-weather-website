@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<h1>Latitude: <span id="lat"></span></h1>
+	<h1>Longtitude<span id ="lon"></span></h1>
+	<h1>Summary: <span id="temp"></span></h1>
+	<h1>The temperature is: <span id ="summary"></span></h1>
+	<h2>
+		The concetrate of particular matter <strong><span id = "qaParameter"></span></strong>
+		is: <span id = 	"qaValue"></span><span id ="units"></span>. last read on <span id ="qaDate"></span>
+	</h2>
+	<script>
+
+	if ("geolocation" in navigator) {
+			navigator.geolocation.getCurrentPosition(async position => {
+	  			try{
+	  			const lat = position.coords.latitude,
+	  				  lon = position.coords.longitude,
+	  				  data ={lat, lon},	
+	  				  res = await fetch('/weatherMap/WeatherInCoords/'+lat+','+lon);
+	  				  json = await res.json(),
+	  				  weather = json.weather.currently,
+	  				  airQuality = json.airQuality.results[0].measurements[0];
+	  				  console.log(airQuality);
+	  				  document.getElementById("lat").textContent = lat;
+	  				  document.getElementById("lon").textContent = lon;
+	  				  document.getElementById("temp").textContent = weather.summary;
+	  				  document.getElementById("summary").textContent = weather.temperature;
+	  				  document.getElementById("qaParameter").textContent = airQuality.parameter;
+	  				  document.getElementById("qaValue").textContent = airQuality.value;
+	  				  document.getElementById("units").textContent = airQuality.units;
+	  				  document.getElementById("qaDate").textContent = airQuality.lastUpdated;
+
+	  				  const	dataDB ={lat, lon, weather, airQuality},
+	  				  		options = {
+	  				  			method: 	"POST",
+	  				  			headers:{
+	  				  				'Content-type': 'application/json'
+	  				  			},
+	  				  			body: JSON.stringify(dataDB) 
+	  				  		},
+	  				  		resDB = await fetch('/weatherMap/indb' , options),
+	  				  		jsonDB = await resDB.json();
+
+	  		}catch(err){}
+	  	});
+		} else {
+		  /* geolocation IS NOT available */
+		}
+
+	</script>
+</body>
+</html>

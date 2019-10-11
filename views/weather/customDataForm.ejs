@@ -1,0 +1,34 @@
+<% include ../partials/header %>
+<body id =bodyData>
+<div class="container" id ="marginUp"> 
+    <form action="/weather/<%=id%>" method="POST">
+        <h1 style="text-align: center">נתונים מותאמים אישית</h1>
+        <div style="width: 30%; margin: 25px auto;">
+        <div class="form-row align-items-center">
+                <input placeholder="נתונים מתאריך" class="textbox-n form-control" type="text" onfocus="(this.type='date')"  id="date" name="dateFrom"> 
+                <input placeholder="נתונים עד תאריך" class="textbox-n form-control" type="text" onfocus="(this.type='date')"  id="date" name="dateTo"> 
+        </div>
+            <div class="col-auto my-1">
+            <select class="custom-select mr-sm-2 form-control" id="inlineFormCustomSelect" name ="val">
+                <option selected>...אנא בחר ערוץ</option>
+                <option value="1">גשם</option>
+                <option value="2">מהירות המשב העליון</option>
+                <option value="3">כיוון המשב העליון</option>
+                <option value="4">מהירו ת הרוח </option>
+                <option value="5">כיוון הרוח</option>
+                <option value="6">בטיית התקן של כיוון הרוח</option>
+                <option value="7">טמפרטורה</option>
+                <option value="8">לחות</option>
+                <option value="9">טמפרטורת מקסימום</option>
+                <option value="10">טמפרטורת מינימום</option>
+                <option value="11">לחץ ברמוטרי</option>
+                <option value="12">לחץ ברמוטרי</option>
+            </select>
+            </div>
+            <div class="form-group">
+                    <button class="btn btn-lg btn-primary btn-block">Submit!</button>
+            </div>
+    </form>
+</div>
+</body>
+<% include ../partials/footer %>

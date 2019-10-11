@@ -1,0 +1,98 @@
+<% include ../partials/header %>
+
+
+<div id="mapid"></div>
+
+<script>
+	const map = createMap();
+	loadIcons(map);
+
+
+	async function loadIcons(map){
+		let val = "violet",
+			greenIcon = new L.Icon({
+				iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-'+val+'.png',
+				shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+				iconSize: [25, 41],
+				iconAnchor: [12, 41],
+				popupAnchor: [0,0],
+				shadowSize: [41, 41]
+				});
+
+		const DBurl = "/city";
+  		const citiesDBResponse = await fetch(DBurl);
+  		const citiesDBData = await citiesDBResponse.json();
+		for(city of citiesDBData){  
+			val = checkHeatStress(city.temperature, city.rh);
+			let greenIcon = new L.Icon({
+				iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-'+val+'.png',
+				shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+				iconSize: [25, 41],
+				iconAnchor: [12, 41],
+				popupAnchor: [0,0],
+				shadowSize: [41, 41]
+				});
+                    
+			const 	marker = L.marker([city.lat, city.lon],{icon: greenIcon}).addTo(map),
+	  					information = 	{lat: city.lat,
+	  									lon: city.lon,
+	  									name: lowerCaseAllWordsExceptFirstLetters(city.cityName),
+										id : city.stationId,
+										temp: city.temperature,
+										rh: city.rh};
+				marker.alt = information;
+				console.log(marker.alt)
+	  			marker.on('mouseover', async function(e) {
+					//const url ="/weatherMap/bind/"+marker.alt.id;
+					//responseFetch 	= await fetch(url),
+					//responseJson	= await responseFetch.json(),
+					//temp = 0,
+					//channels = responseJson.data[0].channels;
+					//channels.forEach(element => {
+					//	if(element.name == "TD"){
+					//		temp = element.value;
+					//	}
+					//});
+					//open popup;
+				  popup = L.popup()
+				   .setLatLng(e.latlng) 
+				   .setContent('<h5 class ="hebrewStyle">' +this.alt.name + '<h6> טמפרטורה: ' + this.alt.temp + '<h6>'+ this.alt.rh + ":לחות" )
+				   .openOn(map);
+
+				});
+
+	  			marker.addEventListener('click', function(){
+	  				marker.url = "/weatherMap/WeatherInCoords/"+this.alt.id+","+this.alt.name
+	  				window.location.href = marker.url;
+	  			})
+	  	}
+  	}
+  	function lowerCaseAllWordsExceptFirstLetters(string) {
+    return string.replace(/\w\S*/g, function (word) {
+        return word.charAt(0) + word.slice(1).toLowerCase();
+    });
+}
+
+
+	function checkHeatStress(temperature, rh){
+		let val = "violet"
+		
+		return val
+	}
+
+	function createMap (){
+		const mymap = L.map('mapid').setView([31.7,35.2], 8);
+		const attribution =
+	        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+	    const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+	    const tiles = L.tileLayer(tileUrl, { attribution });
+	    tiles.addTo(mymap);
+	    return mymap;
+	}
+	
+
+	
+</script>
+
+
+<% include ../partials/footer %>

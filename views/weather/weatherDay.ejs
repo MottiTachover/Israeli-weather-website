@@ -1,0 +1,239 @@
+<% include ../partials/header %>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	
+<div class="jumbotron text-center row" id ="upContainer" style="margin-bottom:0">
+			<div class="d-none d-lg-block">
+				<h1><strong> <%=cityName%></strong></h1>
+				<h2>עדכון אחרון: <%=day%>, <%=time%> </h2>
+				<h1 id="checkUpdate" style="color: rgb(223, 18, 35); display: inline;"></h1>
+			</div>
+	<div style="position:absolute; right:100px; top:70px;">
+			<div>
+				<% if(located[1] >=0 &&  located[2] >=0  && located[7] >=0 && located[8] >=0){%> 
+				<h1><%=channels[located[1]].value%> &#8451		
+				<h2> עוצמת רוח : <%= channels[located[2]].value%> קמ"ש 
+				<h2> גשם: <%= channels[located[7]].value%>
+				<h2> לחות:  <%= channels[located[8]].value%>%
+				<%}%>	
+			</div>	
+		</div>
+</div>
+
+</div>
+<div class="row"  >	
+	<d	iv class="col-md-3 d-none d-xl-block" id="aa">	
+	<h1 style="text-align: right">נתונים מותאמים אישית</h1>
+        <div style="width: 100%; margin: 25px auto;">
+        <div class="form-row align-items-center">
+                <input style="text-align: right;" placeholder="נתונים מתאריך" class="textbox-n form-control" type="text" onfocus="(this.type='date')"  id="date" name="dateFrom"> 
+                <input style="text-align: right;" placeholder="נתונים עד תאריך" class="textbox-n form-control" type="text" onfocus="(this.type='date')"  id="date" name="dateTo"> 
+        </div>
+            <div class="col-auto my-1">
+            <select class="custom-select mr-sm-2 form-control" id="inlineFormCustomSelect" name ="val" >
+                <option  selected >...אנא בחר ערוץ</option>
+                <option value="1">גשם</option>
+                <option value="2">מהירות המשב העליון</option>
+                <option value="3">כיוון המשב העליון</option>
+                <option value="4">מהירו ת הרוח </option>
+                <option value="5">כיוון הרוח</option>
+                <option value="6">בטיית התקן של כיוון הרוח</option>
+                <option value="7">טמפרטורה</option>
+                <option value="8">לחות</option>
+                <option value="9">טמפרטורת מקסימום</option>
+                <option value="10">טמפרטורת מינימום</option>
+                <option value="11">לחץ ברמוטרי</option>
+                <option value="12">לחץ ברמוטרי</option>
+            </select>
+		</div>			
+		<button class="btn btn-lg btn-info" id="submitFetch" style="width:100%">Submit!</button>
+	</div>
+
+	</div>	
+	<div class="col-md-9 col-sm-6 ">
+	<div class = "container d-none d-lg-block green hebrewStyle">
+			<button class ="btn btn-xs btn-info" id ="monthlyBtn">טמפ' חודשית</button>
+			<button class ="btn btn-xs btn-info" id ="monthlyBtnDtl"   >טמפ' חודשית, בפירוט</button>
+			<button class ="btn btn-xs btn-info" id ="dailyBtn"  >טמפ' יומית</button>
+			
+		
+	</div>
+	<div class="container gree" id = "lkj" >
+		<span class='title text-danger' id ="hiding" >
+			<h1 > לא נמצאו נתונים עבור</h1>
+			<h2 id ="param"></h2>
+		</span>
+		<canvas  id="myChart" ></canvas>
+	</div>
+
+	<div class="chartWrapper">
+			<div class="chartAreaWrapper">
+			  <canvas id="chart" height="350px;" width="10000px;"></canvas>
+			</div>
+	</div>
+	
+</div>
+</div>
+
+	
+		
+	
+<script>
+	isUpdate("<%=day%>", "<%=time%>"); //calculate current date, for verify data consistency
+
+	let chart;
+	dailyChart();
+	function dailyChart(){
+		let flag,  MounthRes, x;
+		x = [<%=dailyTemp%>];
+	
+		labels = [];
+		let hour = 1, minuts = 0;
+		for(let i =0 ; i<= x.length; i++){
+			labels.push(""+hour+":"+minuts);
+			minuts = minuts +10;
+			if((minuts % 60) === 0){
+				minuts=0;
+				hour++;
+			}
+		}
+		chartFunc(x, labels, "myChart", "Last Day Data");
+	}
+	async function monthlyChart(){
+			document.getElementById("myChart").classList.add("myChart");
+			url = "/weatherMap/WeatherMonthlyInCoords/<%=id%>";
+			console.log("h"),
+			res = await fetch(url);
+			res = res.json();
+			res.then(function(result) {
+				x = result.tempMounth;
+				toArr = result.dateTimeMounthly;
+				chartFunc(x, toArr, "myChart", "Last Mounth Data")
+			});
+		}
+	async function monthlyChartDtl(){
+		url = "/weatherMap/WeatherMonthlyInCoords/<%=id%>";
+			res = await fetch(url);
+			res = res.json();
+			res.then(function(result) {
+				console.log(result.tempMounth)
+				x = result.tempMounth;
+				toArr = result.dateTimeMounthly;
+				chartFunc(x, toArr, "chart", "Last Mounth Data")
+			});
+	}	
+	document.getElementById("dailyBtn").addEventListener("click", dailyChart);
+	document.getElementById("monthlyBtn").addEventListener("click", monthlyChart);
+	document.getElementById("monthlyBtnDtl").addEventListener("click", monthlyChartDtl);
+	document.getElementById("submitFetch").addEventListener("click", async ()=>{
+		const 	channelId = document.getElementsByName('val')[0].value,
+				dateFrom = document.getElementsByName('dateFrom')[0].value,
+				dateTo = document.getElementsByName('dateTo')[0].value,
+				id = <%=id%>,
+				data = {channelId, dateFrom, dateTo};
+				const myToken = "ApiToken f058958a-d8bd-47cc-95d7-7ecf98610e47",
+				url = "https://api.ims.gov.il/v1/envista/stations/"+id+"/data/"+channelId+"?from="+dateFrom+"&to="+dateTo,
+				options = {
+	  				  		method: 	"POST",
+	  				  		headers:{
+	  				  				'Content-type': 'application/json'
+	  				  		},
+	  				  			body: JSON.stringify(data) 
+	  				  		},
+	  				  		resDB = await fetch("/weather/<%=id%>" , options),
+								jsonDB = await resDB.json();
+
+								valueX = jsonDB.x,
+								yAxes = jsonDB.y
+								if(yAxes.length === 0){
+									
+								}
+								chartFunc(valueX, yAxes, "myChart", "Bla bla bla")
+		
+			});
+
+		function chartFunc(x, labels, myChart, lable){
+			if(x.length !== 0){
+				console.log(lable)
+				document.getElementById("hiding").style.display="none"
+			}
+			else{
+				document.getElementById("hiding").style.display = 'block';
+				document.getElementById("param").textContent = lable
+
+			}
+			let minTemp = x[0], maxTemp=x[0];
+			x.forEach(item =>{
+				if(item > maxTemp){
+					maxTemp = item;
+				}
+				else if(item < minTemp){
+					minTemp =  item;
+				}
+			})
+			var ctx = document.getElementById(myChart).getContext('2d');
+			if(typeof chart !== "undefined"){
+				chart.destroy();
+			}
+			chart = new Chart(ctx, {
+			// The type of chart we want to create
+			type: 'line',
+
+			// The data for our dataset
+		
+			data: {
+				labels: labels,
+					datasets: [{
+						label: lable,
+						backgroundColor: 'rgb(21, 65, 65)',
+						borderColor: 'rgb(13, 241, 241)',
+						data: x
+					}]
+				},
+				options: {
+					
+					scales: {
+						yAxes: [{
+							ticks: {
+								beginAtZero:true,
+								max: maxTemp+5,
+								min:minTemp-5  	
+							}
+						}]
+					}
+					
+				}
+			});
+		}
+	//calculate current date, for verify data consistency
+	function isUpdate(day, dataTime){
+		const 	data = new Date();
+		dd = String(data.getDate()).padStart(2, '0');
+		mm = String(data.getMonth() + 1).padStart(2, '0'); //January is 0!
+		yyyy = data.getFullYear();
+		today = yyyy + '/' + mm + '/' + dd,
+		hour = data.getHours(),
+		dataTime = "<%=time%>",
+		dataHour = dataTime.split(":")[0];
+		
+		if((today !== day) || Math.abs(hour - dataHour > 1)){
+			document.getElementById("checkUpdate").innerHTML = "!הנתונים לא מעודכנים"
+		}
+	
+	}
+	</script>
+		  
+
+  	
+
+	
+ 
+
+
+
+	
+
+
+</body>
+</html>

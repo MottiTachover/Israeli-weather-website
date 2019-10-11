@@ -1,0 +1,59 @@
+<html>
+    <head>
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+        />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="/stylesheets/style.css">
+        <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+        <script src="https://api4.windy.com/assets/libBoot.js"></script>
+        
+    </head>
+    <body>
+            <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+                    <a class="navbar-brand" href="/weatherMap">Home</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                      <ul class="navbar-nav">
+                        <li class="nav-item">
+                        <a class="nav-link" href="weather">Map Forcast</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">Link</a>
+                        </li>    
+                      </ul>
+                    </div>  
+                  </nav>
+        <div class="container-fluid">
+        <div id="windy" style ="height: 100%;"></div>
+      </div>
+        <script >
+            const options = {
+    key: 'fJ6of8mgNaZcmRtcqkshzJVCAGcQZ8Mj', // REPLACE WITH YOUR KEY !!!
+};
+
+windyInit(options, windyAPI => {
+    // All the params are stored in windyAPI.store
+    const { overlays} = windyAPI;
+
+    
+    
+
+    overlays.wind.listMetrics();
+    // ['kt', 'bft', 'm/s', 'km/h', 'mph'] .. available metrics
+
+    overlays.wind.setMetric('km/h');
+    // Metric for wind was changed to bft
+
+   
+});
+        </script>
+    </body>
+</html>

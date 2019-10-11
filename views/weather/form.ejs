@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<input id ="ip" type="text" name="" value ="">
+	<button id ="bt">Submit</button>
+	<script>
+		var buttonSelect = document.getElementById("bt");
+		buttonSelect.addEventListener("click", ()=>{
+		const val = document.getElementById("ip").value;		
+		navigator.geolocation.getCurrentPosition(position => {
+  		const lat = position.coords.latitude,
+  			  lon = position.coords.longitude,
+  			  data ={lat, lon, val},	
+  			  options ={
+    		  	method: 'POST', // *GET, POST, PUT, DELETE, etc.
+			    headers: {
+			      'Content-Type': 'application/json'
+			      // 'Content-Type': 'application/x-www-form-urlencoded',
+			    },
+			    body: JSON.stringify(data)
+			  };	
+			  fetch('/weatherMap', options);
+			});
+		});
+	</script>
+</body>
+</html>

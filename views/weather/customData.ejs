@@ -1,0 +1,63 @@
+<% include ../partials/header %>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	
+<div  style="margin-top:70px">
+        <div class="chartWrapper">
+                <div class="chartAreaWrapper">
+                  <canvas id="myChart" height="500px;" width="5000px;"></canvas>
+        </div>
+</div>
+    
+<script>
+let x = [<%=valuesX%>],
+    y = [<%=yAxes%>];
+    chartFunc(x, y, "myChart", "LastDay");
+
+function chartFunc(x, labels, myChart, lable){
+			let minTemp = x[0], maxTemp=x[0];
+			x.forEach(item =>{
+				if(item > maxTemp){
+					maxTemp = item;
+				}
+				else if(item < minTemp){
+					minTemp =  item;
+				}
+			})
+			var ctx = document.getElementById(myChart).getContext('2d');
+			
+			let chart = new Chart(ctx, {
+			// The type of chart we want to create
+			type: 'line',
+
+			// The data for our dataset
+		
+			data: {
+				labels: labels,
+					datasets: [{
+						label: lable,
+						backgroundColor: 'rgb(21, 65, 65)',
+						borderColor: 'rgb(13, 241, 241)',
+						data: x
+					}]
+				},
+				options: {
+					
+					scales: {
+						yAxes: [{
+							ticks: {
+								beginAtZero:true,
+								max: maxTemp+5,
+								min:minTemp-5  	
+							}
+						}]
+					}
+					
+				}
+			});
+		}
+
+</script>
+
+
+<% include ../partials/footer %>
