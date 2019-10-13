@@ -51,7 +51,8 @@ global.fetch = require('node-fetch')
 
 mongoose.connect("mongodb+srv://devs:nav132435@cluster0-jtyln.mongodb.net/test?retryWrites=true&w=majority" || "mongodb://localhost:27017", {
    useNewUrlParser: true,
-   useCreateIndex: true
+   useCreateIndex: true,
+   useUnifiedTopology: true 
 }).then(()=>{
 	console.log("Connected");
 }).catch(err => {
