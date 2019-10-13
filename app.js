@@ -9,7 +9,7 @@ const express = require("express"),
 	CityData = require("./models/cities.js"),
 	helperFunc = require("./helpers/parseDate");
 
-setInterval(upDateDB, 100000/3);
+setInterval(upDateDB, 1000000);
 async function upDateDB(){
 	console.log("update")
 	const	DBurl = "http://localhost:3000/city",
@@ -49,10 +49,16 @@ async function upDateDB(){
 								}					//show cudtom data page
 global.fetch = require('node-fetch')
 
-mongoose.connect("mongodb://localhost:27017/Demo_app", {
+mongoose.connect("mongodb+srv://devs:nav132435@cluster0-jtyln.mongodb.net/test?retryWrites=true&w=majority", {
    useNewUrlParser: true,
+   useCreateIndex: true,
    useUnifiedTopology: true
-});
+}).then(()=>{
+	console.log("Connected");
+}).catch(err => {
+	console.log(err.message)
+});	
+
 
 
 app.set("view engine", "ejs");
