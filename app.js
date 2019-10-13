@@ -49,7 +49,7 @@ async function upDateDB(){
 								}					//show cudtom data page
 global.fetch = require('node-fetch')
 
-mongoose.connect("mongodb+srv://devs:nav132435@cluster0-jtyln.mongodb.net/test?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://devs:nav132435@cluster0-jtyln.mongodb.net/test?retryWrites=true&w=majority" || "mongodb://localhost:27017", {
    useNewUrlParser: true,
    useCreateIndex: true
 }).then(()=>{
