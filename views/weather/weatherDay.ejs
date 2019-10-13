@@ -4,18 +4,18 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	
 <div class="jumbotron text-center row" id ="upContainer" style="margin-bottom:0">
-			<div class="d-none d-lg-block">
-				<h1><strong> <%=cityName%></strong></h1>
-				<h2>עדכון אחרון: <%=day%>, <%=time%> </h2>
-				<h1 id="checkUpdate" style="color: rgb(223, 18, 35); display: inline;"></h1>
+			<div >
+				<h1 class = "resizeFont"><strong> <%=cityName%></strong></h1>
+				<h2 class = "resizeFont">עדכון אחרון: <%=day%>, <%=time%> </h2>
+				<h1 class = "resizeFont" id="checkUpdate" style="color: rgb(223, 18, 35); display: inline;"></h1>
 			</div>
 	<div style="position:absolute; right:100px; top:70px;">
 			<div>
 				<% if(located[1] >=0 &&  located[2] >=0  && located[7] >=0 && located[8] >=0){%> 
-				<h1><%=channels[located[1]].value%> &#8451		
-				<h2> עוצמת רוח : <%= channels[located[2]].value%> קמ"ש 
-				<h2> גשם: <%= channels[located[7]].value%>
-				<h2> לחות:  <%= channels[located[8]].value%>%
+				<h1 class = "resizeFont" ><%=channels[located[1]].value%> &#8451		
+				<h2 class = "resizeFont" > עוצמת רוח : <%= channels[located[2]].value%> קמ"ש 
+				<h2 class = "resizeFont"> גשם: <%= channels[located[7]].value%>
+				<h2 class = "resizeFont"> לחות:  <%= channels[located[8]].value%>%
 				<%}%>	
 			</div>	
 		</div>
@@ -59,7 +59,7 @@
 			
 		
 	</div>
-	<div class="container gree" id = "lkj" >
+	<div class="container-fluid gree" id = "lkj" >
 		<span class='title text-danger' id ="hiding" >
 			<h1 > לא נמצאו נתונים עבור</h1>
 			<h2 id ="param"></h2>

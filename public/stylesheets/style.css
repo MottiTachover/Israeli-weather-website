@@ -9,8 +9,9 @@
 		top: 50	px;
 		left: 0;
 	}
-
-
+	.resizeFont{
+		font-size: 2.4vw;
+	}
 	.collapse navbar-collapse{
 		top:0;
 		z-index: 9999;
