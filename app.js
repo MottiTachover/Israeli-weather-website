@@ -19,7 +19,7 @@ const express = require("express"),
 		 console.log(err.message)
 	 });	
 	 
-setInterval(upDateDB, 1000);
+setInterval(upDateDB, 100000);
 async function upDateDB(){
 	console.log("update")
 	const	DBurl = "https://fierce-falls-99401.herokuapp.com/city",
