@@ -103,7 +103,6 @@
 	async function monthlyChart(){
 			document.getElementById("myChart").classList.add("myChart");
 			url = "/weatherMap/WeatherMonthlyInCoords/<%=id%>";
-			console.log("h"),
 			res = await fetch(url);
 			res = res.json();
 			res.then(function(result) {
@@ -117,7 +116,6 @@
 			res = await fetch(url);
 			res = res.json();
 			res.then(function(result) {
-				console.log(result.tempMounth)
 				x = result.tempMounth;
 				toArr = result.dateTimeMounthly;
 				chartFunc(x, toArr, "chart", "Last Mounth Data")
@@ -155,7 +153,6 @@
 
 		function chartFunc(x, labels, myChart, lable){
 			if(x.length !== 0){
-				console.log(lable)
 				document.getElementById("hiding").style.display="none"
 			}
 			else{
