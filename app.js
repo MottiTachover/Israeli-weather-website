@@ -22,7 +22,7 @@ const express = require("express"),
 setInterval(upDateDB, 1000000);
 async function upDateDB(){
 	console.log("update")
-	const	DBurl = "http://localhost:3000/city",
+	const	DBurl = "/city",
   		 	citiesDBResponse = await fetch(DBurl),
 			citiesDBData = await citiesDBResponse.json();
 			let url ="";

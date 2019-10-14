@@ -16,6 +16,14 @@
 		top:0;
 		z-index: 9999;
 	}
+	@media (max-width: 1026px) {
+    	.gree
+		 { 
+			
+		}
+	
+		
+	}
 	#new{
 		background-image: url("https://pixabay.com/get/57e9d5464c52af14f6da8c7dda793f7f1636dfe2564c704c732678d29249c55d_340.png");
 		padding-top: 20px;
