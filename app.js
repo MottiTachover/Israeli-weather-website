@@ -22,7 +22,7 @@ const express = require("express"),
 setInterval(upDateDB, 1000);
 async function upDateDB(){
 	console.log("update")
-	const	DBurl = "/city",
+	const	DBurl = "https://fierce-falls-99401.herokuapp.com/city",
   		 	citiesDBResponse = await fetch(DBurl),
 			citiesDBData = await citiesDBResponse.json();
 			let url ="";
