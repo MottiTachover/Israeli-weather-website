@@ -9,8 +9,8 @@ let functions ={};
 		minuts = hourSplit[1],
 		hour = parseInt(hourSplit[0], 10),
 		hour+=1;
-		if(hour == 25){
-			hour = 1;
+		if(hour == 24){
+			hour = 0;
 		}
 		if(hour < 10){
 			hour = "0"+hour
