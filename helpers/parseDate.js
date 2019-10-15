@@ -18,7 +18,7 @@ let functions ={};
     return time = ""+hour+":"+minuts
 }
 	functions.imsRqst = async (url)=>{
-		const myToken = "ApiToken f058958a-d8bd-47cc-95d7-7ecf98610e47",
+		const myToken = process.env.MYTOKEN,
 			options ={
 			method: 'GET', // 'GET', 'PUT', 'DELETE', etc.
 			headers: {
@@ -29,7 +29,6 @@ let functions ={};
 		};
 
 		fetchData = await fetch(url, options);
-		console.log("............" + fetchData)
 		if(fetchData.status === 200){
 			valData = await fetchData.json();
 			return valData;

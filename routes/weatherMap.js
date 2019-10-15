@@ -24,12 +24,7 @@ router.get("/WeatherMonthlyInCoords/:stationId", async(req, res)=>{
 			res.send({tempMounth:tempMounth, dateTimeMounthly:dateTimeMounthly});
 })
 
-router.get("/bind/:stationId", async (req, res)=>{
-	const	id = req.params.stationId,
-			url = "https://api.ims.gov.il/v1/envista/stations/"+id+"/data/latest",
-			responseJson	= await helperFunc.imsRqst(url);	
-			res.send(responseJson);
-})
+
 
 router.get("/WeatherInCoords/:stationIdcityname", async (req, res) =>{
 	const data = req.params.stationIdcityname.split(","),
@@ -41,7 +36,7 @@ router.get("/WeatherInCoords/:stationIdcityname", async (req, res) =>{
 			// Request data from ims server
 			responseJsonLastData 	= await helperFunc.imsRqst(urlLastData)
 			responseFetchDaily = await  helperFunc.imsRqst(urlDaily)
-
+			
 			channels    	= responseJsonLastData.data[0].channels,
 
 			//Parse the date, and adding a hour 

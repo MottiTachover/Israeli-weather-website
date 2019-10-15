@@ -13,7 +13,7 @@
       <div id="windy" style ="height: 100%;"></div>
       <script >
             const options = {
-              key: 'fJ6of8mgNaZcmRtcqkshzJVCAGcQZ8Mj', // REPLACE WITH YOUR KEY !!!
+              key: <%=process.env.WINDYTOKEN%>, 
             };
 
         windyInit(options, windyAPI => {
