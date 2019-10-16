@@ -19,7 +19,7 @@ const express = require("express"),
 		 console.log(err.message)
 	 });	
 	 
-setInterval(upDateDB, 1000);
+setInterval(upDateDB, 600000);
 async function upDateDB(){
 	console.log("update")
 	const	DBurl = "https://fierce-falls-99401.herokuapp.com/city",
@@ -29,8 +29,6 @@ async function upDateDB(){
 			for(city of citiesDBData){
 				url = "https://api.ims.gov.il/v1/envista/stations/"+city.stationId+"/data/latest"
 						respose 	= await helperFunc.imsRqst(url),
-						console.log("zzzzzzzzzzzzzzzzzzzz" + respose)
-
 						channels    = respose.data[0].channels,
 						temp = 0,
 						rhNew = 0;
@@ -43,8 +41,7 @@ async function upDateDB(){
 							}
 							
 						}
-						console.log(city.temperature)
-						console.log(temp)
+						
 						CityData.updateOne(
 							{ "_id": city._id}, // Filter
 							{$set: {"temperature": temp, "rh": rhNew}}, // Update
