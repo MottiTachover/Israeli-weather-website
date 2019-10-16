@@ -19,16 +19,18 @@ const express = require("express"),
 		 console.log(err.message)
 	 });	
 	 
-setInterval(upDateDB, 60000);
+setInterval(upDateDB, 1000);
 async function upDateDB(){
 	console.log("update")
 	const	DBurl = "https://fierce-falls-99401.herokuapp.com/city",
-  		 	citiesDBResponse = await fetch(DBurl),
+ 			citiesDBResponse = await fetch(DBurl);
 			citiesDBData = await citiesDBResponse.json();
 			let url ="";
 			for(city of citiesDBData){
 				url = "https://api.ims.gov.il/v1/envista/stations/"+city.stationId+"/data/latest"
 						respose 	= await helperFunc.imsRqst(url),
+						console.log("zzzzzzzzzzzzzzzzzzzz" + respose)
+
 						channels    = respose.data[0].channels,
 						temp = 0,
 						rhNew = 0;

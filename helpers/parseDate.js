@@ -29,11 +29,14 @@ let functions ={};
 		};
 
 		fetchData = await fetch(url, options);
+		console.log(fetchData)
 		if(fetchData.status === 200){
 			valData = await fetchData.json();
 			return valData;
 		}
 		else{
+			console.log("zzzzzzz")
+
 			return "No content";
 		}
 	}
