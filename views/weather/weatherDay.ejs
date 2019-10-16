@@ -12,8 +12,8 @@
 	<div style="position:absolute; right:100px; top:70px;">
 			<div>
 				<% if(located[1] >=0 &&  located[2] >=0  && located[7] >=0 && located[8] >=0){%> 
-				<h1 class = "resizeFont" ><%=(channels[located[1]].value/1000)*3600%> &#8451		
-				<h2 class = "resizeFont" > עוצמת רוח : <%= channels[located[2]].value%> קמ"ש 
+				<h1 class = "resizeFont" ><%=channels[located[1]].value%> &#8451		
+				<h2 class = "resizeFont" > עוצמת רוח : <%= (channels[located[2]].value/1000)*3600%> קמ"ש 
 				<h2 class = "resizeFont"> גשם: <%= channels[located[7]].value%>
 				<h2 class = "resizeFont"> לחות:  <%= channels[located[8]].value%>%
 				<%}%>	
