@@ -6,7 +6,7 @@
 <div class="jumbotron text-center row" id ="upContainer" style="margin-bottom:0">
 			<div >
 				<h1 class = "resizeFont"><strong> <%=cityName%></strong></h1>
-				<h2 class = "resizeFont">עדכון אחרון: <%=day%>, <%=time%> </h2>
+				<h2 class = "resizeFont">עדכון אחרון: <%=time%>, <%=day%> </h2>
 				<h1 class = "resizeFont" id="checkUpdate" style="color: rgb(223, 18, 35); display: inline;"></h1>
 			</div>
 	<div style="position:absolute; right:100px; top:70px;">
@@ -208,22 +208,28 @@
 		}
 	//calculate current date, for verify data consistency
 	function isUpdate(day, dataTime){
-		const 	data = new Date();
+
+		a = day +" " +dataTime,
+		data = new Date(),
+		valDate = new Date(a)
 		dd = String(data.getDate()).padStart(2, '0');
 		mm = String(data.getMonth() + 1).padStart(2, '0'); //January is 0!
 		yyyy = data.getFullYear();
 		today = yyyy + '/' + mm + '/' + dd,
-		hour = data.getHours(),
-		dataTime = "<%=time%>",
-		dataHour = dataTime.split(":")[0];
-		
-		if((today !== day) || Math.abs(hour - dataHour > 1)){
+		today2 = yyyy + '/' + mm + '/' + dd +" "+data.getHours()+":"+data.getMinutes();
+		diff = Math.abs(data- valDate),
+		minutes = Math.floor((diff/1000)/60);
+		if(minutes > 60){
 			document.getElementById("checkUpdate").innerHTML = "!הנתונים לא מעודכנים"
 		}
 	
 	}
+	
 
 	function convertToWindSpeedInKmPerHour(){
+		if( <%=located[2]%> <= 0){
+			return "מידע לא זמין "
+		}
 		const 	mmInKm = 1000, 
 				secondsInHour = 3600,
 				windSpeedMmPerSec = <%=channels[located[2]].value%>, 

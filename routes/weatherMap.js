@@ -35,6 +35,7 @@ router.get("/WeatherInCoords/:stationIdcityname", async (req, res) =>{
 			
 			// Request data from ims server
 			responseJsonLastData 	= await helperFunc.imsRqst(urlLastData)
+			console.log()
 			responseFetchDaily = await  helperFunc.imsRqst(urlDaily)
 			
 			channels    	= responseJsonLastData.data[0].channels,
@@ -43,7 +44,6 @@ router.get("/WeatherInCoords/:stationIdcityname", async (req, res) =>{
 			
 			updata = responseJsonLastData.data[0].datetime,
 			time = helperFunc.converDateRep(updata)
-
 			const tempDaily = [], timeDaily = [];
 			if(responseFetchDaily !== "No content"){
 				responseFetchDaily.data.forEach(element => {

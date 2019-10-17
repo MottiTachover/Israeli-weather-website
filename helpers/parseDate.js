@@ -17,7 +17,7 @@ let functions ={};
 			hour = 0;
 		}
 		if(hour < 10){
-			hour = "0"+hour
+			//hour = "0"+hour
 		}
     return time = ""+hour+":"+minuts
 }
