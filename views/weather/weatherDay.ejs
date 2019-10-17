@@ -13,7 +13,8 @@
 			<div>
 				<% if(located[1] >=0 &&  located[2] >=0  && located[7] >=0 && located[8] >=0){%> 
 				<h1 class = "resizeFont" ><%=channels[located[1]].value%> &#8451		
-				<h2 class = "resizeFont" > עוצמת רוח : <%= (channels[located[2]].value/1000)*3600%> קמ"ש 
+				<% const mmInKm = 1000, secondsInHour = 3600%>
+				<h2 class = "resizeFont"> עוצמת רוח : <span id = "calcTheVal"></span> קמ"ש
 				<h2 class = "resizeFont"> גשם: <%= channels[located[7]].value%>
 				<h2 class = "resizeFont"> לחות:  <%= channels[located[8]].value%>%
 				<%}%>	
@@ -80,6 +81,8 @@
 		
 	
 <script>
+	document.getElementById("calcTheVal").textContent= convertToWindSpeedInKmPerHour()
+
 	isUpdate("<%=day%>", "<%=time%>"); //calculate current date, for verify data consistency
 
 	let chart;
@@ -218,6 +221,15 @@
 			document.getElementById("checkUpdate").innerHTML = "!הנתונים לא מעודכנים"
 		}
 	
+	}
+
+	function convertToWindSpeedInKmPerHour(){
+		const 	mmInKm = 1000, 
+				secondsInHour = 3600,
+				windSpeedMmPerSec = <%=channels[located[2]].value%>, 
+				windSpeedKmPerHour =(windSpeedMmPerSec/mmInKm)*secondsInHour%>,
+				oneDecimalPlaceOnly = parseFloat(Math.round(windSpeedKmPerHour * 100) / 100).toFixed(1);
+				return oneDecimalPlaceOnly
 	}
 	</script>
 		  
