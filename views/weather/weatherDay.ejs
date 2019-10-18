@@ -91,15 +91,22 @@
 		x = [<%=dailyTemp%>];
 	
 		labels = [];
-		let hour = 1, minuts = 0;
+		let hour = 0, minuts = 0;
 		for(let i =0 ; i<= x.length; i++){
-			labels.push(""+hour+":"+minuts);
-			minuts = minuts +10;
 			if((minuts % 60) === 0){
 				minuts=0;
 				hour++;
+				labels.push(""+hour+":"+minuts+"0");
 			}
+			else{
+				labels.push(""+hour+":"+minuts);
+			}
+			minuts = minuts +10;
+
 		}
+		labels.forEach(item =>{
+			console.log(item)
+		})
 		chartFunc(x, labels, "myChart", "Last Day Data");
 	}
 	async function monthlyChart(){
@@ -179,17 +186,26 @@
 						label: lable,
 						backgroundColor: 'rgb(21, 65, 65)',
 						borderColor: 'rgb(13, 241, 241)',
-						data: x
-					}]
+						data: x,
+						autoSkip: true, autoSkipPadding: 15, maxRotation: 0
+										}]
 				},
 				options: {
 					
 					scales: {
+						xAxes: [{
+						ticks: {
+							autoSkip: true,
+							maxTicksLimit:x.length/5
+						}
+						}],
 						yAxes: [{
 							ticks: {
+								
 								beginAtZero:true,
 								min: Math.min.apply(this, x)-2,
-								max: Math.max.apply(this, x)+2	
+								max: Math.max.apply(this, x)+2,
+								stepSize: 2	
 							}
 						}]
 					}
