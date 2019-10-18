@@ -13,7 +13,6 @@
 			<div>
 				<% if(located[1] >=0 &&  located[2] >=0  && located[7] >=0 && located[8] >=0){%> 
 				<h1 class = "resizeFont" ><%=channels[located[1]].value%> &#8451		
-				<% const mmInKm = 1000, secondsInHour = 3600%>
 				<h2 class = "resizeFont"> עוצמת רוח : <span id = "calcTheVal"></span> קמ"ש
 				<h2 class = "resizeFont"> גשם: <%= channels[located[7]].value%>
 				<h2 class = "resizeFont"> לחות:  <%= channels[located[8]].value%>%
@@ -227,9 +226,6 @@
 	
 
 	function convertToWindSpeedInKmPerHour(){
-		if( <%=located[2]%> <= 0){
-			return "מידע לא זמין "
-		}
 		const 	mmInKm = 1000, 
 				secondsInHour = 3600,
 				windSpeedMmPerSec = <%=channels[located[2]].value%>, 

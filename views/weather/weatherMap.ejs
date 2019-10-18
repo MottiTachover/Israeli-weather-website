@@ -21,17 +21,11 @@
 
 		const DBurl = "/city";
   		const citiesDBResponse = await fetch(DBurl);
-  		const citiesDBData = await citiesDBResponse.json();
+		const citiesDBData = await citiesDBResponse.json();
+
+		let min = 50, max = -50, iconUrlPath;  
 		for(city of citiesDBData){  
-			val = checkHeatStress(city.temperature, city.rh);
-			let greenIcon = new L.Icon({
-				iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-'+val+'.png',
-				shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-				iconSize: [25, 41],
-				iconAnchor: [12, 41],
-				popupAnchor: [0,0],
-				shadowSize: [41, 41]
-				});
+			//val = checkHeatStress(city.temperature, city.rh);
                     
 			const 	marker = L.marker([city.lat, city.lon],{icon: greenIcon}).addTo(map),
 	  					information = 	{lat: city.lat,
