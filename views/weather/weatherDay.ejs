@@ -162,15 +162,7 @@
 				document.getElementById("param").textContent = lable
 
 			}
-			let minTemp = x[0], maxTemp=x[0];
-			x.forEach(item =>{
-				if(item > maxTemp){
-					maxTemp = item;
-				}
-				else if(item < minTemp){
-					minTemp =  item;
-				}
-			})
+			
 			var ctx = document.getElementById(myChart).getContext('2d');
 			if(typeof chart !== "undefined"){
 				chart.destroy();
@@ -196,8 +188,8 @@
 						yAxes: [{
 							ticks: {
 								beginAtZero:true,
-								max: maxTemp+5,
-								min:minTemp-5  	
+								min: Math.min.apply(this, x)-2,
+								max: Math.max.apply(this, x)+2	
 							}
 						}]
 					}
