@@ -91,16 +91,12 @@
 		x = [<%=dailyTemp%>];
 	
 		labels = [];
-		let hour = 1, minuts = 0;
-		for(let i =0 ; i<= x.length; i++){
-			labels.push(""+hour+":"+minuts);
-			minuts = minuts +10;
-			if((minuts % 60) === 0){
-				minuts=0;
-				hour++;
-			}
+		let hour = 1;
+		for(let i =0 ; i<= 3; i++){
+			labels.push(hour+":00")
+			hour += 5;
 		}
-		chartFunc(x, labels, "myChart", "Last Day Data");
+		chartFunc(x, x, "myChart", "Last Day Data");
 	}
 	async function monthlyChart(){
 			document.getElementById("myChart").classList.add("myChart");
