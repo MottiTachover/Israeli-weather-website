@@ -92,8 +92,11 @@
 	
 		labels = [];
 		let hour = 1;
-		
-		chartFunc(x, x, "myChart", "Last Day Data");
+		for(let i =0 ; i<= 3; i++){
+			labels.push(hour+":00")
+			hour += 5;
+		}
+		chartFunc(x, labels, "myChart", "Last Day Data");
 	}
 	async function monthlyChart(){
 			document.getElementById("myChart").classList.add("myChart");
