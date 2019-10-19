@@ -6,7 +6,6 @@ const express = require("express"),
 	cityRoutes = require("./routes/city.js"),
 	bodyParser  = require("body-parser"),
 	mongoose    = require("mongoose"),
-	CityData = require("./models/cities.js"),
 	helperFunc = require("./helpers/parseDate");
 
 	mongoose.connect("mongodb+srv://devs:nav132435@cluster0-jtyln.mongodb.net/test?retryWrites=true&w=majority" || "mongodb://localhost:27017", {

@@ -6,20 +6,21 @@
 <div class="jumbotron text-center row" id ="upContainer" style="margin-bottom:0">
 			<div >
 				<h1 class = "resizeFont"><strong> <%=cityName%></strong></h1>
-				<h2 class = "resizeFont">עדכון אחרון: <%=day%>, <%=time%> </h2>
+				<h2 class = "resizeFont">עדכון אחרון: <%=time%>, <%=day%> </h2>
 				<h1 class = "resizeFont" id="checkUpdate" style="color: rgb(223, 18, 35); display: inline;"></h1>
 			</div>
 	<div style="position:absolute; right:100px; top:70px;">
 			<div>
 				<% if(located[1] >=0 &&  located[2] >=0  && located[7] >=0 && located[8] >=0){%> 
 				<h1 class = "resizeFont" ><%=channels[located[1]].value%> &#8451		
-				<h2 class = "resizeFont" > עוצמת רוח : <%= channels[located[2]].value%> קמ"ש 
+				<h2 class = "resizeFont"> עוצמת רוח : <span id = "calcTheVal"></span> קמ"ש
 				<h2 class = "resizeFont"> גשם: <%= channels[located[7]].value%>
 				<h2 class = "resizeFont"> לחות:  <%= channels[located[8]].value%>%
 				<%}%>	
 			</div>	
 		</div>
 </div>
+
 </div>
 <div class="row"  >	
 	<d	iv class="col-md-3 d-none d-xl-block" id="aa">	
@@ -48,6 +49,7 @@
 		</div>			
 		<button class="btn btn-lg btn-info" id="submitFetch" style="width:100%">Submit!</button>
 	</div>
+
 	</div>	
 	<div class="col-md-9 col-sm-6 ">
 	<div class = "container d-none d-lg-block green hebrewStyle">
@@ -64,6 +66,7 @@
 		</span>
 		<canvas  id="myChart" ></canvas>
 	</div>
+
 	<div class="chartWrapper">
 			<div class="chartAreaWrapper">
 			  <canvas id="chart" height="350px;" width="10000px;"></canvas>
@@ -72,11 +75,15 @@
 	
 </div>
 </div>
+
 	
 		
 	
 <script>
+	document.getElementById("calcTheVal").textContent= convertToWindSpeedInKmPerHour()
+
 	isUpdate("<%=day%>", "<%=time%>"); //calculate current date, for verify data consistency
+
 	let chart;
 	dailyChart();
 	function dailyChart(){
@@ -84,15 +91,22 @@
 		x = [<%=dailyTemp%>];
 	
 		labels = [];
-		let hour = 1, minuts = 0;
+		let hour = 0, minuts = 0;
 		for(let i =0 ; i<= x.length; i++){
-			labels.push(""+hour+":"+minuts);
-			minuts = minuts +10;
 			if((minuts % 60) === 0){
 				minuts=0;
 				hour++;
+				labels.push(""+hour+":"+minuts+"0");
 			}
+			else{
+				labels.push(""+hour+":"+minuts);
+			}
+			minuts = minuts +10;
+
 		}
+		labels.forEach(item =>{
+			console.log(item)
+		})
 		chartFunc(x, labels, "myChart", "Last Day Data");
 	}
 	async function monthlyChart(){
@@ -136,6 +150,7 @@
 	  				  		},
 	  				  		resDB = await fetch("/weather/<%=id%>" , options),
 								jsonDB = await resDB.json();
+
 								valueX = jsonDB.x,
 								yAxes = jsonDB.y
 								if(yAxes.length === 0){
@@ -144,6 +159,7 @@
 								chartFunc(valueX, yAxes, "myChart", "Bla bla bla")
 		
 			});
+
 		function chartFunc(x, labels, myChart, lable){
 			if(x.length !== 0){
 				document.getElementById("hiding").style.display="none"
@@ -151,16 +167,9 @@
 			else{
 				document.getElementById("hiding").style.display = 'block';
 				document.getElementById("param").textContent = lable
+
 			}
-			let minTemp = x[0], maxTemp=x[0];
-			x.forEach(item =>{
-				if(item > maxTemp){
-					maxTemp = item;
-				}
-				else if(item < minTemp){
-					minTemp =  item;
-				}
-			})
+			
 			var ctx = document.getElementById(myChart).getContext('2d');
 			if(typeof chart !== "undefined"){
 				chart.destroy();
@@ -168,6 +177,7 @@
 			chart = new Chart(ctx, {
 			// The type of chart we want to create
 			type: 'line',
+
 			// The data for our dataset
 		
 			data: {
@@ -176,17 +186,26 @@
 						label: lable,
 						backgroundColor: 'rgb(21, 65, 65)',
 						borderColor: 'rgb(13, 241, 241)',
-						data: x
-					}]
+						data: x,
+						autoSkip: true, autoSkipPadding: 15, maxRotation: 0
+										}]
 				},
 				options: {
 					
 					scales: {
+						xAxes: [{
+						ticks: {
+							autoSkip: true,
+							maxTicksLimit:x.length/5
+						}
+						}],
 						yAxes: [{
 							ticks: {
+								
 								beginAtZero:true,
-								max: maxTemp+5,
-								min:minTemp-5  	
+								min: Math.min.apply(this, x)-2,
+								max: Math.max.apply(this, x)+2,
+								stepSize: 2	
 							}
 						}]
 					}
@@ -196,18 +215,39 @@
 		}
 	//calculate current date, for verify data consistency
 	function isUpdate(day, dataTime){
-		const 	data = new Date();
-		dd = String(data.getDate()).padStart(2, '0');
-		mm = String(data.getMonth() + 1).padStart(2, '0'); //January is 0!
-		yyyy = data.getFullYear();
-		today = yyyy + '/' + mm + '/' + dd,
-		hour = data.getHours(),
-		dataTime = "<%=time%>",
-		dataHour = dataTime.split(":")[0];
-		
-		if((today !== day) || Math.abs(hour - dataHour > 1)){
+		updateTime = day +" " +dataTime,
+		data = new Date(),
+		valDate = new Date(updateTime)
+		diff = Math.abs(data- valDate),
+		minutes = Math.floor(((diff/1000)/60)/60);
+		console.log(minutes + "," + data +"," + valDate)
+		if(minutes > 60){
 			document.getElementById("checkUpdate").innerHTML = "!הנתונים לא מעודכנים"
 		}
 	
 	}
+	
+
+	function convertToWindSpeedInKmPerHour(){
+		const 	mmInKm = 1000, 
+				secondsInHour = 3600,
+				windSpeedMmPerSec = <%=channels[located[2]].value%>, 
+				windSpeedKmPerHour =(windSpeedMmPerSec/mmInKm)*secondsInHour%>,
+				oneDecimalPlaceOnly = parseFloat(Math.round(windSpeedKmPerHour * 100) / 100).toFixed(1);
+				return oneDecimalPlaceOnly
+	}
 	</script>
+		  
+
+  	
+
+	
+ 
+
+
+
+	
+
+
+</body>
+</html>

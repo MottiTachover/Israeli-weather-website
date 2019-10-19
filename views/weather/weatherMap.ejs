@@ -3,6 +3,31 @@
 
 <div id="mapid"></div>
 
+<div class="container" style="position: absolute ; margin-left: 80%; margin-top: 10px;">
+		<!-- Trigger the modal with a button -->
+		<button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#myModal">מה האייקונים מסמלים</button>
+	  
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" role="dialog">
+		  <div class="modal-dialog">
+		  
+			<!-- Modal content-->
+			<div class="modal-content">
+			  <div class="modal-body hebrewStyle">
+				<p>.כל אייקון מסמל תחנה מסויימת</p>
+				<p>לקבלת נתונים על איזור מסויים, יש להעביר את העכבר על האייקון</p>
+				<p>לנתונים בהרחבה, יש ללחוץ  עליו</p>
+
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">סגור</button>
+			  </div>
+			</div>
+			
+		  </div>
+		</div>
+		
+	  </div>
 <script>
 	const map = createMap();
 	loadIcons(map);
