@@ -104,10 +104,8 @@
 			minuts = minuts +10;
 
 		}
-		labels.forEach(item =>{
-			console.log(item)
-		})
-		chartFunc(x, labels, "myChart", "Last Day Data");
+		y =[]
+		chartFunc(y, labels, "myChart", "Last Day Data");
 	}
 	async function monthlyChart(){
 			document.getElementById("myChart").classList.add("myChart");
