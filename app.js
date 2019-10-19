@@ -66,4 +66,4 @@ function loadTOdb(stations){
 }
 
 
-app.listen(process.env.PORT || 6000,process.env.Host ||'0.0.0.0', ()=>console.log("Started"));
+app.listen(process.env.PORT || 5000,process.env.Host ||'0.0.0.0', ()=>console.log("Started"));
