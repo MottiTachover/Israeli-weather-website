@@ -7,16 +7,17 @@
         <% include ../partials/header %>
 
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+
     </head>
     
     <body>
-      <div id="windy" style ="height: 100%;"></div>
+      <div id="windy" style ="height: 100%; "></div>
       <script >
             const options = {
               key: 'fJ6of8mgNaZcmRtcqkshzJVCAGcQZ8Mj', // REPLACE WITH YOUR KEY !!!
-              lat: 33,
+              lat: 32,
               lon: 35,
-              zoom: 5,
+              zoom: 7,
             };
 
         windyInit(options, windyAPI => {
