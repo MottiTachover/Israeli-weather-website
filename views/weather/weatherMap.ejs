@@ -31,7 +31,9 @@
 <script>
 	const map = createMap();
 	loadIcons(map);
-
+	window.addEventListener('load', function () {
+		loadIcons(map);
+})
 
 	async function loadIcons(map){
 		let val = "violet",
