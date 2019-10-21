@@ -64,6 +64,9 @@
 			<h1 > לא נמצאו נתונים עבור</h1>
 			<h2 id ="param"></h2>
 		</span>
+		<span class='title text-info'>
+				<h1 > Todo, Max temperature</h1>
+				</span>
 		<canvas  id="myChart" ></canvas>
 	</div>
 
@@ -85,7 +88,6 @@
 	isUpdate("<%=day%>", "<%=time%>"); //calculate current date, for verify data consistency
 
 	let chart;
-	dailyChart();
 	function dailyChart(){
 		let flag,  MounthRes, x;
 		x = [<%=dailyTemp%>];
