@@ -47,7 +47,7 @@ router.get("/WeatherInCoords/:stationIdcityname", async (req, res) =>{
 			updata = responseJsonLastData.data[0].datetime,
 			time = helperFunc.converDateRep(updata)
 
-			const tempDaily = [], timeDaily = [];
+			let tempDaily = [], timeDaily = [];
 			if(responseFetchDaily !== "No content"){
 				responseFetchDaily.data.forEach(element => {
 					element.channels.forEach(channel =>{

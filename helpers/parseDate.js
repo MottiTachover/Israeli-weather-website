@@ -11,8 +11,7 @@ let functions ={};
 		hour = hour.split("+")[0],
 		hourSplit = hour.split(":"),
 		minuts = hourSplit[1],
-		hour = parseInt(hourSplit[0], 10),
-		hour+=1;
+		hour = parseInt(hourSplit[0], 10);
 		if(hour == 24){
 			hour = 0;
 		}

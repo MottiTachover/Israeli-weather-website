@@ -59,17 +59,7 @@
 										rh: city.rh};
 				marker.alt = information;
 	  			marker.on('mouseover', async function(e) {
-					//const url ="/weatherMap/bind/"+marker.alt.id;
-					//responseFetch 	= await fetch(url),
-					//responseJson	= await responseFetch.json(),
-					//temp = 0,
-					//channels = responseJson.data[0].channels;
-					//channels.forEach(element => {
-					//	if(element.name == "TD"){
-					//		temp = element.value;
-					//	}
-					//});
-					//open popup;
+					
 				  popup = L.popup()
 				   .setLatLng(e.latlng) 
 				   .setContent('<h5 class ="hebrewStyle">' +this.alt.name + '<h6> טמפרטורה: ' + this.alt.temp + '<h6>'+ this.alt.rh + ":לחות" )
